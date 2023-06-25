@@ -1,20 +1,10 @@
 pipeline {
   agent any
   stages {
-    stage('SCM') {
+    stage('Scan') {
       steps {
-        git 'https://github.com/NIANG95/hello-world.git'
-      }
-    }
-    stage('Build'){
-        steps{
-        sh 'mvn clean package'
-      }
-    }
-    stage('SonarQube analysis') {
-      steps {
-        withSonarQubeEnv(installationName: 'sonarqube-9.9.1'){
-          sh "mvn sonar:sonar"
+        withSonarQubeEnv(installationName: 'sonarqube-9.9.1') { 
+          sh './mvnw clean org.sonarsource.scanner.maven:sonar-maven-plugin:3.9.0.2155:sonar'
         }
       }
     }
